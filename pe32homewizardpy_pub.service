@@ -1,0 +1,23 @@
+[Unit]
+Description=PE32 HomeWizard (water) exporter
+After=network.target
+
+[Service]
+Type=simple
+#Environment=PE32HOMEWIZARD_BROKER=test.mosquitto.org
+#Environment=PE32HOMEWIZARD_TOPIC=myhome/infra/solar/xwwwform
+#Environment=PE32HOMEWIZARD_GUID=EUI48:11:22:33:44:55:66
+#Environment=PE32HOMEWIZARD_OFFSETLITER=1234000
+#Environment=PE32HOMEWIZARD_DEBUG=1
+Environment=HOST=192.168.2.17
+Environment=PORT=80
+EnvironmentFile=-/etc/default/pe32homewizardpy_pub
+RestartSec=15
+Restart=always
+ExecStart=/usr/bin/python3 /srv/pe32homewizardpy_pub/pe32homewizardpy_pub.py --publish $HOST $PORT
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+# vim: set syn=dosini:
